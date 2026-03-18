@@ -1,0 +1,14 @@
+[project]
+name = "experiments"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "espnet-model-zoo>=0.1.7",
+    "fvcore>=0.1.5.post20221221",
+    "nemo-toolkit[asr]>=2.7.0",
+    "numpy<2.0.0",
+    "ptflops>=0.7.5",
+    "typeguard<3.0.0",
+]

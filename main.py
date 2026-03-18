@@ -66,7 +66,11 @@ def estimate_gmucs(model, is_nemo=True):
                 dummy_input = torch.randn(1, 100, 80)
 
         if target_module and dummy_input is not None:
-            target_module.cpu().eval()
+            target_module.eval()
+
+            current_device = next(target_module.parameters()).device
+            dummy_input = dummy_input.to(current_device)
+            
             flops = FlopCountAnalysis(target_module, dummy_input)
             # FLOPs / 2
             # Giga MACs = (Total FLOPs / 2) / 1e9

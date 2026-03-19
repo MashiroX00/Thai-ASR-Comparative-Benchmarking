@@ -1283,6 +1283,7 @@ source = { virtual = "." }
 dependencies = [
     { name = "espnet-model-zoo" },
     { name = "fvcore" },
+    { name = "matplotlib" },
     { name = "nemo-toolkit", extra = ["asr"] },
     { name = "numpy" },
     { name = "ptflops" },
@@ -1293,6 +1294,7 @@ dependencies = [
 requires-dist = [
     { name = "espnet-model-zoo", specifier = ">=0.1.7" },
     { name = "fvcore", specifier = ">=0.1.5.post20221221" },
+    { name = "matplotlib", specifier = ">=3.10.8" },
     { name = "nemo-toolkit", extras = ["asr"], specifier = ">=2.7.0" },
     { name = "numpy", specifier = "<2.0.0" },
     { name = "ptflops", specifier = ">=0.7.5" },

@@ -1,39 +1,71 @@
-# ASR Benchmarking Tool
+# ASR Benchmarking Tool 🎙️
 
-โปรเจกต์นี้เป็นเครื่องมือสำหรับทดสอบประสิทธิภาพ (Benchmarking) ของโมเดล Automatic Speech Recognition (ASR) ต่างๆ โดยเน้นที่ภาษาไทยและภาษาอังกฤษ โดยใช้ Dataset จาก `typhoon-ai/TVSpeech`
+เครื่องมือสำหรับทดสอบประสิทธิภาพ (Benchmarking) ของโมเดล Automatic Speech Recognition (ASR) ที่รองรับภาษาไทยและภาษาอังกฤษ โดยเน้นการวัดผลที่ครอบคลุมทั้งด้านความแม่นยำและความเร็วในการประมวลผล
 
-## คุณสมบัติหลัก
+## 🌟 คุณสมบัติหลัก
 
-- **รองรับหลายโมเดล:**
-  - ESPnet BLSTM (Baseline)
-  - NeMo Fast-Conformer
-  - Squeezeformer
-  - Typhoon ASR (Real-time)
-- **การวัดผลที่ครอบคลุม:**
-  - **WER (Word Error Rate):** ความแม่นยำของการถอดความ
-  - **Latency:** เวลาที่ใช้ในการประมวลผลต่อตัวอย่าง
-  - **RTF (Real-time Factor):** อัตราส่วนเวลาประมวลผลต่อความยาวเสียง
-  - **GMACs:** ประมาณการความซับซ้อนของการคำนวณ (ต่อเสียง 1 วินาที)
+- **รองรับโมเดลหลากหลายสถาปัตยกรรม:**
+  - **ESPnet Conformer (BLSTM Baseline):** โมเดลมาตรฐานสำหรับการเปรียบเทียบ
+  - **NeMo Fast-Conformer:** โมเดลประสิทธิภาพสูงจาก NVIDIA
+  - **Squeezeformer:** โมเดลที่เน้นความเร็วและประหยัดทรัพยากร
+  - **Typhoon ASR:** โมเดล ASR ล่าสุดที่รองรับการทำงานแบบ Real-time
+- **การวัดผลที่ละเอียด (Metrics):**
+  - **WER (Word Error Rate):** วัดความแม่นยำของการถอดความ
+  - **Latency:** เวลาเฉลี่ยที่ใช้ในการประมวลผลต่อหนึ่งประโยค
+  - **RTF (Real-time Factor):** อัตราส่วนเวลาประมวลผลต่อความยาวเสียง (ยิ่งน้อยยิ่งเร็ว)
+  - **GMACs:** ค่าความซับซ้อนของการคำนวณ (ต่อเสียง 1 วินาที)
   - **Parameter Count:** จำนวนพารามิเตอร์ของโมเดล
-- **ระบบ Logging แบบรวมศูนย์:** บันทึกข้อมูลการรันทั้งหมดลงในไฟล์เดียวต่อการรันหนึ่งครั้งในโฟลเดอร์ `logs/`
-- **การบันทึกผลลัพธ์:** ส่งออกผลลัพธ์ในรูปแบบ CSV (`asr_benchmark_results.csv`)
+- **Dataset:** ใช้ข้อมูลจาก `typhoon-ai/TVSpeech` (Hugging Face)
+- **Visualization:** มีเครื่องมือสร้างกราฟเปรียบเทียบผลลัพธ์โดยอัตโนมัติ
 
-## โครงสร้างโปรเจกต์
+## 📂 โครงสร้างโปรเจกต์
 
-- `main.py`: ไฟล์หลักสำหรับการรัน Benchmark
-- `models/`: โฟลเดอร์เก็บ Wrapper สำหรับโหลดโมเดลต่างๆ
-- `utils/`: เครื่องมือช่วยเหลือ เช่น ระบบ Logger และการเช็ค GPU compatibility
-- `logs/`: โฟลเดอร์เก็บไฟล์ Log ของแต่ละการรัน
-- `datasets/`: โค้ดที่เกี่ยวข้องกับการจัดการข้อมูล
+```text
+.
+├── main.py              # ไฟล์หลักสำหรับรัน Benchmark ทั้งหมด
+├── DrawGraphs.py        # เครื่องมือสร้างกราฟจากผลลัพธ์ (CSV)
+├── datasets/            # จัดการการโหลดและประมวลผลข้อมูล
+├── models/              # Wrapper สำหรับโหลดโมเดลแต่ละประเภท
+├── utils/               # เครื่องมือเสริม เช่น Logger และ System Check
+├── logs/                # เก็บประวัติการทำงาน (Runtime Logs)
+└── asr_benchmark_results.csv # ไฟล์สรุปผลลัพธ์หลังรันเสร็จ
+```
 
-## การใช้งาน
+## 🚀 การติดตั้ง
 
-1. ติดตั้ง Dependencies (แนะนำให้ใช้ `uv` หรือ `pip`):
-   ```bash
-   pip install torch librosa numpy pandas soundfile datasets jiwer ptflops fvcore nemo_toolkit[asr] espnet_model_zoo
-   ```
+โปรเจกต์นี้จัดการ Dependencies ด้วย `uv` (แนะนำ) หรือสามารถใช้ `pip` ปกติได้
 
-2. รัน Benchmark:
-   ```bash
-   python main.py
-   ```
+### แบบที่ 1: ใช้ `uv` (แนะนำ)
+```bash
+# ติดตั้ง dependencies ทั้งหมดตาม lockfile
+uv sync
+```
+
+### แบบที่ 2: ใช้ `pip`
+```bash
+pip install torch librosa numpy pandas soundfile datasets jiwer ptflops fvcore matplotlib
+pip install nemo_toolkit[asr] espnet_model_zoo
+```
+
+## 🛠️ วิธีการใช้งาน
+
+### 1. การรัน Benchmark
+รันไฟล์ `main.py` เพื่อเริ่มการทดสอบโมเดลทั้งหมดที่กำหนดไว้ในสคริปต์:
+```bash
+python main.py
+```
+*ระบบจะโหลด Dataset จาก Hugging Face อัตโนมัติ และบันทึกผลลัพธ์ลงใน `asr_benchmark_results.csv`*
+
+### 2. การสร้างกราฟเปรียบเทียบ
+หลังจากรัน Benchmark เสร็จแล้ว คุณสามารถสร้างกราฟเพื่อดูความแตกต่างได้:
+```bash
+python DrawGraphs.py
+```
+ระบบจะแสดงเมนูให้เลือก Metric ที่ต้องการวาดกราฟ (เช่น WER, RTF, GMACs) และเลือกบันทึกรูปภาพได้
+
+## 📊 ผลลัพธ์และการบันทึกข้อมูล
+- **CSV Output:** ผลลัพธ์จะถูกบันทึกในรูปแบบตารางที่อ่านง่ายในไฟล์ `asr_benchmark_results.csv`
+- **Logging:** รายละเอียดการทำงานและ Error ต่างๆ จะถูกบันทึกไว้ในโฟลเดอร์ `logs/` แบ่งตามช่วงเวลาที่รัน
+
+## ⚖️ License
+โปรเจกต์นี้เผยแพร่ภายใต้ [MIT License](LICENSE)
